@@ -252,7 +252,11 @@ function GraphSlider({ data, width, height, top, state, dispatch }: any) {
   )
 }
 
-export default function AreaClosedChart({ chartQuotes, range }: any) {
+export default function AreaClosedChart({
+  chartQuotes,
+  range,
+  chartHeight,
+}: any) {
   const searchParams = useSearchParams()
   const { replace } = useRouter()
   const pathname = usePathname()
@@ -328,7 +332,7 @@ export default function AreaClosedChart({ chartQuotes, range }: any) {
         {formattedDate}{" "}
         {range !== "3m" && range !== "1y" && "at " + formattedTime}
       </div>
-      <div className="h-80">
+      <div style={{ height: chartHeight ? chartHeight : "20rem" }}>
         {chartQuotes.length > 0 ? (
           <ParentSize>
             {({ width, height }) => (

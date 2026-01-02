@@ -13,7 +13,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command"
 import { Button } from "./button"
-import tickers from "@/data/tickers.json"
+import { BIST_STOCKS } from "@/data/bistStocks"
 import { useRouter } from "next/navigation"
 
 const SUGGESTIONS = [
@@ -86,29 +86,24 @@ export default function CommandMenu() {
                 ))}
 
               {search.length > 0 &&
-                tickers
-                  .filter(
-                    (ticker) =>
-                      ticker.ticker
-                        .toLowerCase()
-                        .includes(search.toLowerCase()) ||
-                      ticker.title.toLowerCase().includes(search.toLowerCase())
-                  )
+                BIST_STOCKS.filter(
+                  (ticker: string) =>
+                    ticker.toLowerCase().includes(search.toLowerCase()) ||
+                    ticker.toLowerCase().includes(search.toLowerCase())
+                )
                   .slice(0, 10)
-                  .map((ticker) => (
+                  .map((ticker: string) => (
                     <CommandItem
-                      key={ticker.id}
-                      value={ticker.ticker + "\n \n" + ticker.title}
+                      key={ticker}
+                      value={ticker}
                       onSelect={() => {
                         setOpen(false)
                         setSearch("")
-                        router.push(`/stocks/${ticker.ticker}`)
+                        router.push(`/stocks/${ticker}`)
                       }}
                     >
-                      <p className="mr-2 font-semibold">{ticker.ticker}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {ticker.title}
-                      </p>
+                      <p className="mr-2 font-semibold">{ticker}</p>
+                      <p className="text-sm text-muted-foreground">{ticker}</p>
                     </CommandItem>
                   ))}
             </CommandGroup>

@@ -7,10 +7,12 @@ export default async function MarketsChart({
   ticker,
   range,
   interval,
+  chartHeight,
 }: {
   ticker: string
   range: Range
   interval: Interval
+  chartHeight?: string
 }) {
   const chartData = await fetchChartData(ticker, range, interval)
   const quoteData = await fetchQuote(ticker)
@@ -36,7 +38,11 @@ export default async function MarketsChart({
         })}
       </div>
       {chart.quotes.length > 0 ? (
-        <AreaClosedChart chartQuotes={stockQuotes} range={range} />
+        <AreaClosedChart
+          chartQuotes={stockQuotes}
+          range={range}
+          chartHeight={chartHeight}
+        />
       ) : (
         <div className="flex h-full items-center justify-center text-center text-neutral-500">
           No data available

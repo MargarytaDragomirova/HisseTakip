@@ -20,6 +20,7 @@ import {
 } from "@/lib/yahoo-finance/fetchChartData"
 import { fetchStockSearch } from "@/lib/yahoo-finance/fetchStockSearch"
 import Image from "next/image"
+import EconomicCalendar from "@/components/tradingView/economicCalendar"
 
 const tickers = [
   { symbol: "THYAO.IS", shortName: "Türk Hava Yollari Anonim Ortakligi" },
@@ -59,7 +60,6 @@ export default async function Home({
     interval?: string
   }
 }) {
-
   const ticker = searchParams?.ticker || tickers[0].symbol
   const range = validateRange(searchParams?.range || DEFAULT_RANGE)
   const interval = validateInterval(
@@ -98,7 +98,7 @@ export default async function Home({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4 lg:flex-row">
+      <div className="flex flex-col gap-4 lg:flex-row ">
         <div className="w-full lg:w-1/2">
           <Card className="relative flex h-full min-h-[15rem] flex-col justify-between overflow-hidden">
             <CardHeader>
@@ -128,12 +128,9 @@ export default async function Home({
         </div>
         <div className="w-full lg:w-1/2">
           <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Sector Performance</CardTitle>
-            </CardHeader>
-            <CardContent>
+            <CardContent style={{ paddingTop: "28px" }}>
               <Suspense fallback={<div>Loading...</div>}>
-                <SectorPerformance />
+                <EconomicCalendar />
               </Suspense>
             </CardContent>
           </Card>
