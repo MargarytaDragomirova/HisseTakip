@@ -1,10 +1,11 @@
 import { unstable_noStore as noStore } from "next/cache"
-import yahooFinance from "yahoo-finance2"
+import YahooFinance from "yahoo-finance2"
 import { BIST_STOCKS } from "@/data/bistStocks"
 
 const ITEMS_PER_PAGE = 100
 
 export async function fetchScreenerStocks(_: string, count?: number) {
+  const yahooFinance = new YahooFinance();
   noStore()
 
   try {

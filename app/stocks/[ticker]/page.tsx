@@ -1,7 +1,6 @@
 import StockChart from "@/components/chart/StockChart"
 import CompanySummaryCard from "@/app/stocks/[ticker]/components/CompanySummaryCard"
 import FinanceSummary from "@/app/stocks/[ticker]/components/FinanceSummary"
-import News from "@/app/stocks/[ticker]/components/News"
 import { Card, CardContent } from "@/components/ui/card"
 import { DEFAULT_INTERVAL, DEFAULT_RANGE } from "@/lib/yahoo-finance/constants"
 import {
@@ -12,6 +11,7 @@ import { Interval } from "@/types/yahoo-finance"
 import { Suspense } from "react"
 import type { Metadata } from "next"
 import { fetchQuote } from "@/lib/yahoo-finance/fetchQuote"
+import HalkYatirimIndicators from "./components/HalkYatirimIndicators"
 
 type Props = {
   params: {
@@ -50,7 +50,6 @@ export default async function StocksPage({ params, searchParams }: Props) {
     range,
     (searchParams?.interval as Interval) || DEFAULT_INTERVAL
   )
-
   return (
     <div>
       <Card>
@@ -85,11 +84,11 @@ export default async function StocksPage({ params, searchParams }: Props) {
           <Suspense
             fallback={
               <div className="flex h-[20rem] items-center justify-center text-muted-foreground ">
-                Loading...
+                Getting Analysis from Halk Yatırım and İş Yatırım
               </div>
             }
           >
-            <News ticker={ticker} />
+            <HalkYatirimIndicators ticker={ticker} />
           </Suspense>
         </CardContent>
       </Card>

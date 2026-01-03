@@ -1,14 +1,14 @@
-import yahooFinance from "yahoo-finance2"
+import YahooFinance from "yahoo-finance2";
 import { Card, CardContent } from "../../../../components/ui/card"
 import ReadMoreText from "../../../../components/ui/read-more-text"
 import Link from "next/link"
-import FearGreedIndex from "@/components/stocks/fear-greed-index"
 
 export default async function CompanySummaryCard({
   ticker,
 }: {
   ticker: string
 }) {
+  const yahooFinance = new YahooFinance();
   const data = await yahooFinance.quoteSummary(ticker, {
     modules: ["summaryProfile"],
   })

@@ -1,5 +1,5 @@
+import YahooFinance from "yahoo-finance2";
 import { DataTable } from "@/components/stocks/markets/data-table"
-import yahooFinance from "yahoo-finance2"
 import {
   Card,
   CardContent,
@@ -13,15 +13,11 @@ import { Suspense } from "react"
 import MarketsChart from "@/components/chart/MarketsChart"
 import Link from "next/link"
 import { columns } from "@/components/stocks/markets/columns"
-import SectorPerformance from "@/components/stocks/SectorPerformance"
 import {
   validateInterval,
   validateRange,
 } from "@/lib/yahoo-finance/fetchChartData"
 import { fetchStockSearch } from "@/lib/yahoo-finance/fetchStockSearch"
-import Image from "next/image"
-import EconomicCalendar from "@/components/tradingView/economicCalendar"
-
 const tickers = [
   { symbol: "THYAO.IS", shortName: "Türk Hava Yollari Anonim Ortakligi" },
   { symbol: "GARAN.IS", shortName: "Turkiye Garanti Bankasi A.S." },
@@ -60,20 +56,21 @@ export default async function Home({
     interval?: string
   }
 }) {
+  const yahooFinance = new YahooFinance();
   const ticker = searchParams?.ticker || tickers[0].symbol
   const range = validateRange(searchParams?.range || DEFAULT_RANGE)
   const interval = validateInterval(
     range,
     (searchParams?.interval as Interval) || DEFAULT_INTERVAL
   )
-  const news = await fetchStockSearch("GC=F", 1)
+  const news = await fetchStockSearch("GC=F", 2)
 
   const promises = tickers.map(({ symbol }) =>
     yahooFinance.quoteCombine(symbol)
   )
   const results = await Promise.all(promises)
 
-  const resultsWithTitles = results.map((result, index) => ({
+  const resultsWithTitles = results.map((result: any, index: any) => ({
     ...result,
     shortName: tickers[index].shortName,
   }))
@@ -107,32 +104,29 @@ export default async function Home({
                 <strong className={sentimentColor}>{marketSentiment}</strong>
               </CardTitle>
             </CardHeader>
-            {news.news[0] && news.news[0].title && (
-              <CardFooter className="flex-col items-start">
-                <p className="mb-2 text-sm font-semibold text-neutral-500 dark:text-neutral-500">
-                  What you need to know today
-                </p>
-                <Link
-                  prefetch={false}
-                  href={news.news[0].link}
-                  className="text-lg font-extrabold"
-                >
-                  {news.news[0].title}
-                </Link>
-              </CardFooter>
-            )}
             <div
               className={`pointer-events-none absolute inset-0 z-0 h-[65%] w-[65%] -translate-x-[10%] -translate-y-[30%] rounded-full blur-3xl ${sentimentBackground}`}
             />
           </Card>
         </div>
         <div className="w-full lg:w-1/2">
-          <Card>
-            <CardContent style={{ paddingTop: "28px" }}>
-              <Suspense fallback={<div>Loading...</div>}>
-                <EconomicCalendar />
-              </Suspense>
-            </CardContent>
+          <Card className="min-h-[15rem]">
+            <Suspense fallback={<div>Loading...</div>}>
+              <p className="text-sm font-semibold text-neutral-500 dark:text-neutral-500" style={{ padding:"24px" }}>
+                What you need to know today
+              </p>
+              {news.news.map((item: any) => (
+                <CardContent>
+                  <Link
+                    prefetch={false}
+                    href={item.link}
+                    className="text-lg font-extrabold"
+                  >
+                    {item.title}
+                  </Link>
+                </CardContent>
+              ))}
+            </Suspense>
           </Card>
         </div>
       </div>

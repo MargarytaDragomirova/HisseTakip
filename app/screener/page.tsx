@@ -15,7 +15,7 @@ export default async function ScreenerPage({
     screener?: string
   }
 }) {
-  const screener = searchParams?.screener || DEFAULT_SCREENER
+  const screener = searchParams?.screener || ""
 
   const screenerDataResults = await fetchScreenerStocks(screener)
 
