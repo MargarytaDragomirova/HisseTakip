@@ -20,10 +20,6 @@ const SUGGESTIONS = [
   { ticker: "THYAO.IS", title: "Türk Hava Yollari Anonim Ortakligi" },
   { ticker: "GARAN.IS", title: "Turkiye Garanti Bankasi A.S." },
   { ticker: "TUPRS.IS", title: "Türkiye Petrol Rafinerileri A.S." },
-  { ticker: "BTC-USD", title: "Bitcoin" },
-  { ticker: "GC=F", title: "Altın" },
-  { ticker: "SI=F", title: "Gümüş" },
-  { ticker: "EURUSD=X", title: "EUR/USD" },
 ]
 
 export default function CommandMenu() {

@@ -1,12 +1,9 @@
 import { unstable_noStore as noStore } from "next/cache"
-import type {
-  ChartOptions,
-  ChartResultArray,
-} from "@/node_modules/yahoo-finance2/dist/esm/src/modules/chart"
+import type { ChartOptions,ChartResultArray } from "yahoo-finance2/modules/chart"
 import type { Interval, Range } from "@/types/yahoo-finance"
 import { DEFAULT_RANGE, INTERVALS_FOR_RANGE, VALID_RANGES } from "./constants"
 import { CalculateRange } from "@/lib/utils"
-import yahooFinance from "yahoo-finance2"
+import YahooFinance from "yahoo-finance2"
 
 export const validateRange = (range: string): Range =>
   VALID_RANGES.includes(range as Range) ? (range as Range) : DEFAULT_RANGE
@@ -21,6 +18,7 @@ export async function fetchChartData(
   range: Range,
   interval: Interval
 ) {
+  const yahooFinance = new YahooFinance();
   noStore()
 
   const queryOptions: ChartOptions = {
@@ -29,12 +27,10 @@ export async function fetchChartData(
   }
 
   try {
-    const chartData: ChartResultArray = await yahooFinance.chart(
+    return await yahooFinance.chart(
       ticker,
       queryOptions
     )
-
-    return chartData
   } catch (error) {
     console.log("Failed to fetch chart data", error)
     throw new Error("Failed to fetch chart data.")

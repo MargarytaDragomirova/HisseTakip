@@ -4,7 +4,6 @@ import "./globals.css"
 import { ViewTransitions } from "next-view-transitions"
 import { ThemeProvider } from "@/components/ui/theme-provider"
 import Navigation from "@/components/ui/navigation"
-import Footer from "@/components/ui/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -33,7 +32,6 @@ export default function RootLayout({
           >
             <Navigation />
             <main className="container">{children}</main>
-            <Footer />
           </ThemeProvider>
         </body>
       </html>

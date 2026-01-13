@@ -90,12 +90,12 @@ export function DataTable<TData, TValue>({
   )
 
   return (
-    <div className="w-full">
+    <div className="mt-2 w-full">
       <div className="flex items-center pb-4">
         <Select onValueChange={(value) => handleSelect(value)}>
-          <SelectTrigger className="w-[180px] bg-card">
+          {/* <SelectTrigger className="w-[180px] bg-card">
             <SelectValue placeholder="Most actives" />
-          </SelectTrigger>
+          </SelectTrigger> */}
           <SelectContent>
             {ScreenerOptions.map((option) => (
               <SelectItem key={option.value} value={option.value}>

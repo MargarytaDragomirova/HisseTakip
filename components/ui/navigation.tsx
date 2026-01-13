@@ -17,6 +17,7 @@ import CommandMenu from "./command-menu"
 const NAVIGATION = [
   { title: "Markets", href: "/" },
   { title: "Screener", href: "/screener" },
+  { title: "Profile", href: "/profile" },
 ]
 
 export default function Navigation() {

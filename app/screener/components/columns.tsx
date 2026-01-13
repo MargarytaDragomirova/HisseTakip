@@ -5,6 +5,7 @@ import { CellContext, ColumnDef } from "@tanstack/react-table"
 import type { ScreenerQuote } from "@/node_modules/yahoo-finance2/dist/esm/src/modules/screener"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { FavoriteButton } from "@/components/ui/FavoriteButton"
 
 export const columns: ColumnDef<ScreenerQuote>[] = [
   {
@@ -22,6 +23,22 @@ export const columns: ColumnDef<ScreenerQuote>[] = [
         >
           {symbol}
         </Link>
+      )
+    },
+    enableHiding: false,
+  },
+  {
+    accessorKey: "favorite",
+    meta: "favorite",
+    header: "Favorite",
+    cell: (props: CellContext<ScreenerQuote, unknown>) => {
+      const { row } = props
+      return (
+        <FavoriteButton
+          symbol={row.original.symbol}
+          shortName={row.original.shortName}
+          isFav={row.original.isFav}
+        />
       )
     },
     enableHiding: false,

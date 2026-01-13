@@ -3,6 +3,7 @@ import { columns } from "@/app/screener/components/columns"
 import { DataTable } from "@/app/screener/components/data-table"
 import { DEFAULT_SCREENER } from "@/lib/yahoo-finance/constants"
 import { fetchScreenerStocks } from "@/lib/yahoo-finance/fetchScreenerStocks"
+import { getFavoriteStocks } from "@/lib/stock"
 
 export const metadata: Metadata = {
   title: "Finly: Stock screener",
@@ -15,9 +16,18 @@ export default async function ScreenerPage({
     screener?: string
   }
 }) {
-  const screener = searchParams?.screener || DEFAULT_SCREENER
+  const screener = searchParams?.screener || ""
 
   const screenerDataResults = await fetchScreenerStocks(screener)
+  const favStocks = await getFavoriteStocks();
+
+  favStocks.map((item) => {
+    const index = screenerDataResults.quotes.findIndex((x) => x.symbol == item.symbol)
+    if (index != -1) {
+      screenerDataResults.quotes[index].isFav = true
+    }
+  })
+
 
   return (
     <div>
