@@ -1,4 +1,4 @@
-import YahooFinance from "yahoo-finance2";
+import YahooFinance from "yahoo-finance2"
 import { DataTable } from "@/components/stocks/markets/data-table"
 import {
   Card,
@@ -50,18 +50,19 @@ function getMarketSentiment(changePercentage: number | undefined) {
 export default async function Home({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams?: Promise<{
     ticker?: string
     range?: string
     interval?: string
-  }
+  }>
 }) {
-  const yahooFinance = new YahooFinance();
-  const ticker = searchParams?.ticker || tickers[0].symbol
-  const range = validateRange(searchParams?.range || DEFAULT_RANGE)
+  const params = await searchParams
+  const yahooFinance = new YahooFinance()
+  const ticker = params?.ticker || tickers[0].symbol
+  const range = validateRange(params?.range || DEFAULT_RANGE)
   const interval = validateInterval(
     range,
-    (searchParams?.interval as Interval) || DEFAULT_INTERVAL
+    (params?.interval as Interval) || DEFAULT_INTERVAL
   )
   const news = await fetchStockSearch("BTC-USD", 2)
 
@@ -112,11 +113,14 @@ export default async function Home({
         <div className="w-full lg:w-1/2">
           <Card className="min-h-[15rem]">
             <Suspense fallback={<div>Loading...</div>}>
-              <p className="text-sm font-semibold text-neutral-500 dark:text-neutral-500" style={{ padding:"24px" }}>
+              <p
+                className="text-sm font-semibold text-neutral-500 dark:text-neutral-500"
+                style={{ padding: "24px" }}
+              >
                 What you need to know today
               </p>
-              {news.news.map((item: any) => (
-                <CardContent>
+              {news.news.map((item: any, index) => (
+                <CardContent key={index}>
                   <Link
                     prefetch={false}
                     href={item.link}

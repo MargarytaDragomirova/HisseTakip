@@ -5,7 +5,7 @@ import { BIST_STOCKS } from "@/data/bistStocks"
 const ITEMS_PER_PAGE = 100
 
 export async function fetchScreenerStocks(_: string, count?: number) {
-  const yahooFinance = new YahooFinance();
+  const yahooFinance = new YahooFinance()
   noStore()
 
   try {
@@ -21,7 +21,7 @@ export async function fetchScreenerStocks(_: string, count?: number) {
       total: BIST_STOCKS.length,
     }
   } catch (error) {
-    console.log("Failed to fetch BIST stocks", error)
+    console.log(error)
     throw new Error("Failed to fetch BIST stocks.")
   }
 }

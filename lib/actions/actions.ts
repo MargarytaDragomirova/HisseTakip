@@ -1,21 +1,20 @@
-"use server";
+"use server"
 
-import { prisma } from "@/lib/prisma";
-import { getCurrentUser, login, registerAndLogin } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
-
+import { prisma } from "@/lib/prisma"
+import { getCurrentUser, login, registerAndLogin } from "@/lib/auth"
+import { revalidatePath } from "next/cache"
 
 export async function favoriteStockAction(formData: FormData) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
   if (!user) {
-    throw new Error("Unauthorized");
+    return { status: "Error" }
   }
 
-  const symbol = formData.get("symbol") as string;
-  const shortName = formData.get("shortName") as string;
+  const symbol = formData.get("symbol") as string
+  const shortName = formData.get("shortName") as string
 
   if (!symbol || !shortName) {
-    throw new Error("Invalid data");
+    return { status: "Error" }
   }
 
   const existing = await prisma.favoriteStock.findUnique({
@@ -25,7 +24,7 @@ export async function favoriteStockAction(formData: FormData) {
         symbol,
       },
     },
-  });
+  })
 
   if (existing) {
     await prisma.favoriteStock.delete({
@@ -35,9 +34,9 @@ export async function favoriteStockAction(formData: FormData) {
           symbol,
         },
       },
-    });
-    revalidatePath("/profile");
-    return { status: "removed" };
+    })
+    revalidatePath("/profile")
+    return { status: "removed" }
   }
 
   await prisma.favoriteStock.create({
@@ -46,32 +45,32 @@ export async function favoriteStockAction(formData: FormData) {
       symbol,
       shortName,
     },
-  });
-  revalidatePath("/profile");
-  return { status: "added" };
+  })
+  revalidatePath("/profile")
+  return { status: "added" }
 }
 
 export type AuthState = {
-  message?: string;
-};
+  message?: string
+}
 
 export async function loginAction(
   prevState: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  const mode = formData.get("mode");
+  const mode = formData.get("mode")
 
   try {
     if (mode === "register") {
-      await registerAndLogin(formData);
-      return { message: "Kayıt başarılı" };
+      await registerAndLogin(formData)
+      return { message: "Kayıt başarılı" }
     } else {
-      await login(formData);
-      return { message: "Giriş başarılı" };
+      await login(formData)
+      return { message: "Giriş başarılı" }
     }
   } catch (e: any) {
     return {
       message: e?.message ?? "Bilinmeyen bir hata oluştu",
-    };
+    }
   }
 }

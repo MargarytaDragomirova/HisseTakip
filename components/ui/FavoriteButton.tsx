@@ -1,23 +1,25 @@
-"use client";
+"use client"
 
-import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
-import { favoriteStockAction } from "@/lib/actions/actions";
-import { useState } from "react";
+import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons"
+import { favoriteStockAction } from "@/lib/actions/actions"
+import { useState } from "react"
 export function FavoriteButton({
   symbol,
   shortName,
-  isFav
+  isFav,
 }: {
-  symbol: string;
-  shortName: string;
+  symbol: string
+  shortName: string
   isFav: boolean | undefined
 }) {
-  const [fav, setFav] = useState(Boolean(isFav));
+  const [fav, setFav] = useState(Boolean(isFav))
 
   async function action(formData: FormData) {
-    await favoriteStockAction(formData);
-    if (window.location.pathname != "/profile") {
-      setFav((v) => !v); // ⭐ optimistic
+    const res = await favoriteStockAction(formData)
+    if (res.status != "Error") {
+      if (window.location.pathname != "/profile") {
+        setFav((v) => !v)
+      }
     }
   }
   return (
@@ -25,13 +27,12 @@ export function FavoriteButton({
       <input type="hidden" name="symbol" value={symbol} />
       <input type="hidden" name="shortName" value={shortName} />
       <button type="submit">
-        {fav
-          ?
+        {fav ? (
           <StarFilledIcon className="cursor-pointer text-yellow-500" />
-          :
+        ) : (
           <StarIcon className="cursor-pointer text-yellow-500" />
-        }
+        )}
       </button>
     </form>
-  );
+  )
 }

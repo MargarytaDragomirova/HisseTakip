@@ -2,7 +2,7 @@
 
 import { CellContext, ColumnDef } from "@tanstack/react-table"
 
-import type { ScreenerQuote } from "@/node_modules/yahoo-finance2/dist/esm/src/modules/screener"
+import type { ScreenerQuote } from "yahoo-finance2/modules/screener"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { FavoriteButton } from "@/components/ui/FavoriteButton"
@@ -31,7 +31,7 @@ export const columns: ColumnDef<ScreenerQuote>[] = [
     accessorKey: "favorite",
     meta: "favorite",
     header: "Favorite",
-    cell: (props: CellContext<ScreenerQuote, unknown>) => {
+    cell: (props: CellContext<any, unknown>) => {
       const { row } = props
       return (
         <FavoriteButton

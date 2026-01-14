@@ -1,4 +1,4 @@
-import type { PredefinedScreenerModules } from "@/node_modules/yahoo-finance2/dist/esm/src/modules/screener"
+import type { PredefinedScreenerModules } from "yahoo-finance2/modules/screener"
 
 type ScreenerOption = {
   label: string
