@@ -2,11 +2,10 @@
 
 <h2>Installation Steps:</h2>
 
-
 <p>1. Install dependencies:</p>
 
 ```
-npm install --legacy-peer-deps
+npm install
 ```
 
 <p>2. Generate prisma client</p>
